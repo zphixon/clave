@@ -1,11 +1,11 @@
 
 extern crate midir;
-extern crate piccolo;
+extern crate clave;
 
 use midir::MidiOutput;
 
-use piccolo::message::Message;
-use piccolo::music::{Beat, Note};
+use clave::message::Message;
+use clave::music::{Beat, Note};
 
 use std::thread::sleep;
 use std::time::Duration;
@@ -19,9 +19,9 @@ fn main() {
 fn run() -> Result<(), Box<Error>> {
 
     println!("\"Parsing file\"");
-    let data = piccolo::parse(/* filename */);
+    let data = clave::parse(/* filename */);
 
-    let midi_out = MidiOutput::new("piccolo output")?;
+    let midi_out = MidiOutput::new("clave output")?;
     let out_port = match midi_out.port_count() {
         0 => return Err("No port found".into()),
         1 => {
@@ -45,7 +45,7 @@ fn run() -> Result<(), Box<Error>> {
     };
 
     println!("Connecting to port");
-    let mut conn_out = midi_out.connect(out_port, "piccolo-output").map_err(|e| e.kind())?;
+    let mut conn_out = midi_out.connect(out_port, "clave-output").map_err(|e| e.kind())?;
 
     // 0xC0 - change instrument
     //conn_out.send(&[0xC0, 0x79])?;
